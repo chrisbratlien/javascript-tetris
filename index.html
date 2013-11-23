@@ -2,44 +2,61 @@
 <html>
 <head>
   <title>Javascript Tetris</title>
+
   <style>
     body      { font-family: Helvetica, sans-serif; }
     #tetris   { margin: 1em auto; padding: 1em; border: 4px solid black; border-radius: 10px; background-color: #F8F8F8; }
     #stats    { display: inline-block; vertical-align: top; }
-    #canvas   { display: inline-block; vertical-align: top; background: url(texture.jpg); box-shadow: 10px 10px 10px #999; border: 2px solid #333; }
-    #menu     { display: inline-block; vertical-align: top; position: relative; }
+    #canvas-left   { position: absolute; left: 25%; display: inline-block; vertical-align: top; background: url(texture.jpg); box-shadow: 10px 10px 10px #999; border: 2px solid #333; }
+    #canvas-right   { position: absolute; right: 25%; display: inline-block; vertical-align: top; background: url(texture.jpg); box-shadow: 10px 10px 10px #999; border: 2px solid #333; }
+    #menu     { position: absolute; right: 5%; bottom: 0; display: inline-block; vertical-align: top;}
     #menu p   { margin: 0.5em 0; text-align: center; }
     #menu p a { text-decoration: none; color: black; }
     #upcoming { display: block; margin: 0 auto; background-color: #E0E0E0; }
     #score    { color: red; font-weight: bold; vertical-align: middle; }
     #rows     { color: blue; font-weight: bold; vertical-align: middle; }
     #stats    { position: absolute; bottom: 0em; right: 1em; }
-    @media screen and (min-width:   0px) and (min-height:   0px)  { #tetris { font-size: 0.75em; width: 250px; } #menu { width: 100px; height: 200px; } #upcoming { width:  50px; height:  50px; } #canvas { width: 100px; height: 200px; } } /* 10px chunks */
-    @media screen and (min-width: 400px) and (min-height: 400px)  { #tetris { font-size: 1.00em; width: 350px; } #menu { width: 150px; height: 300px; } #upcoming { width:  75px; height:  75px; } #canvas { width: 150px; height: 300px; } } /* 15px chunks */
-    @media screen and (min-width: 500px) and (min-height: 500px)  { #tetris { font-size: 1.25em; width: 450px; } #menu { width: 200px; height: 400px; } #upcoming { width: 100px; height: 100px; } #canvas { width: 200px; height: 400px; } } /* 20px chunks */
-    @media screen and (min-width: 600px) and (min-height: 600px)  { #tetris { font-size: 1.50em; width: 550px; } #menu { width: 250px; height: 500px; } #upcoming { width: 125px; height: 125px; } #canvas { width: 250px; height: 500px; } } /* 25px chunks */
-    @media screen and (min-width: 700px) and (min-height: 700px)  { #tetris { font-size: 1.75em; width: 650px; } #menu { width: 300px; height: 600px; } #upcoming { width: 150px; height: 150px; } #canvas { width: 300px; height: 600px; } } /* 30px chunks */
-    @media screen and (min-width: 800px) and (min-height: 800px)  { #tetris { font-size: 2.00em; width: 750px; } #menu { width: 350px; height: 700px; } #upcoming { width: 175px; height: 175px; } #canvas { width: 350px; height: 700px; } } /* 35px chunks */
-    @media screen and (min-width: 900px) and (min-height: 900px)  { #tetris { font-size: 2.25em; width: 850px; } #menu { width: 400px; height: 800px; } #upcoming { width: 200px; height: 200px; } #canvas { width: 400px; height: 800px; } } /* 40px chunks */
+    
+    
+    
+    @media screen and (min-width:   0px) and (min-height:   0px)  { #tetris { font-size: 0.75em; width: 250px; } #menu { width: 100px; height: 200px; } #upcoming { width:  50px; height:  50px; } .tetris-canvas { width: 100px; height: 200px; } } /* 10px chunks */
+    @media screen and (min-width: 400px) and (min-height: 400px)  { #tetris { font-size: 1.00em; width: 350px; } #menu { width: 150px; height: 300px; } #upcoming { width:  75px; height:  75px; } .tetris-canvas { width: 150px; height: 300px; } } /* 15px chunks */
+    @media screen and (min-width: 500px) and (min-height: 500px)  { #tetris { font-size: 1.25em; width: 450px; } #menu { width: 200px; height: 400px; } #upcoming { width: 100px; height: 100px; } .tetris-canvas { width: 200px; height: 400px; } } /* 20px chunks */
+    @media screen and (min-width: 600px) and (min-height: 600px)  { #tetris { font-size: 1.50em; width: 550px; } #menu { width: 250px; height: 500px; } #upcoming { width: 125px; height: 125px; } .tetris-canvas { width: 250px; height: 500px; } } /* 25px chunks */
+    @media screen and (min-width: 700px) and (min-height: 700px)  { #tetris { font-size: 1.75em; width: 650px; } #menu { width: 300px; height: 600px; } #upcoming { width: 150px; height: 150px; } .tetris-canvas { width: 300px; height: 600px; } } /* 30px chunks */
+    @media screen and (min-width: 800px) and (min-height: 800px)  { #tetris { font-size: 2.00em; width: 750px; } #menu { width: 350px; height: 700px; } #upcoming { width: 175px; height: 175px; } .tetris-canvas { width: 350px; height: 700px; } } /* 35px chunks */
+    @media screen and (min-width: 900px) and (min-height: 900px)  { #tetris { font-size: 2.25em; width: 850px; } #menu { width: 400px; height: 800px; } #upcoming { width: 200px; height: 200px; } .tetris-canvas { width: 400px; height: 800px; } } /* 40px chunks */
+    
+        
   </style>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>  
+  <script src="http://cdn.dev.bratliensoftware.com/javascript/array.js"></script>
+  <script src="http://cdn.dev.bratliensoftware.com/javascript/bsd.pubsub.js"></script>
 </head> 
 
 <body> 
 
-  <div id="tetris">
+    <canvas id="canvas-left" class="tetris-canvas">
+      Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
+    </canvas>
+    <canvas id="canvas-right" class="tetris-canvas">
+      Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
+    </canvas>
+
     <div id="menu">
-      <p id="start"><a href="javascript:play();">Press Space to Play.</a></p>
+    
+      <p id="start">Play (space)</p>
       <p><canvas id="upcoming"></canvas></p>
       <p>score <span id="score">00000</span></p>
       <p>rows <span id="rows">0</span></p>
     </div>
-    <canvas id="canvas">
-      Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
-    </canvas>
-  </div>
+
 
   <script src="stats.js"></script>
-  <script>
+  <script type="text/javascript">
+
+    if (typeof BSD =="undefined") { var BSD = {}; }
 
     //-------------------------------------------------------------------------
     // base helper methods
@@ -71,8 +88,10 @@
     var KEY     = { ESC: 27, SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 },
         DIR     = { UP: 0, RIGHT: 1, DOWN: 2, LEFT: 3, MIN: 0, MAX: 3 },
         stats   = new Stats(),
-        canvas  = get('canvas'),
+        canvas  = get('canvas-left'),
+        canvasRight  = get('canvas-right'),
         ctx     = canvas.getContext('2d'),
+        ctxRight     = canvasRight.getContext('2d'),
         ucanvas = get('upcoming'),
         uctx    = ucanvas.getContext('2d'),
         speed   = { start: 0.6, decrement: 0.005, min: 0.1 }, // how long before piece drops by 1 row (seconds)
@@ -80,12 +99,40 @@
         ny      = 20, // height of tetris court (in blocks)
         nu      = 5;  // width/height of upcoming preview (in blocks)
 
+
+
+
+
+      /*** Pieces Fall on the right hand side, stack up on the left hand side **/
+      /**
+      var ctxFall = ctxRight;
+      var ctxSit = ctx;
+      var canvasFall = canvasRight;
+      var canvasSit = canvas;
+      **/
+
+
+      /*** Pieces Fall on the left hand side, stack up on the right hand side **/
+      var ctxFall = ctx;
+      var ctxSit = ctxRight;
+      var canvasFall = canvas;
+      var canvasSit = canvasRight;
+
+
+
+
+
+
+      BSD.ctxRight = ctxRight;
+      BSD.canvasRight = canvasRight;
+
     //-------------------------------------------------------------------------
     // game variables (initialized during reset)
     //-------------------------------------------------------------------------
 
     var dx, dy,        // pixel size of a single tetris block
         blocks,        // 2 dimensional array (nx*ny) representing tetris court - either empty block or occupied by a 'piece'
+        blocksRight,
         actions,       // queue of user actions (inputs)
         playing,       // true|false - game is in progress
         dt,            // time since starting this game
@@ -202,10 +249,15 @@
     };
 
     function resize(event) {
-      canvas.width   = canvas.clientWidth;  // set canvas logical size equal to its physical size
-      canvas.height  = canvas.clientHeight; // (ditto)
+      [canvas,canvasRight].each(function(o){
+        o.width = o.clientWidth;
+        o.height = o.clientHeight;
+      });
+
+
       ucanvas.width  = ucanvas.clientWidth;
       ucanvas.height = ucanvas.clientHeight;
+
       dx = canvas.width  / nx; // pixel size of a single tetris block
       dy = canvas.height / ny; // (ditto)
       invalidate();
@@ -245,9 +297,18 @@
     function clearRows()            { setRows(0); };
     function setRows(n)             { rows = n; step = Math.max(speed.min, speed.start - (speed.decrement*rows)); invalidateRows(); };
     function addRows(n)             { setRows(rows + n); };
+
+
     function getBlock(x,y)          { return (blocks && blocks[x] ? blocks[x][y] : null); };
+    function getBlockRight(x,y)          { return (blocksRight && blocksRight[x] ? blocksRight[x][y] : null); };
     function setBlock(x,y,type)     { blocks[x] = blocks[x] || []; blocks[x][y] = type; invalidate(); };
+    function setBlockRight(x,y,type)     { blocksRight[x] = blocksRight[x] || []; blocksRight[x][y] = type; invalidate(); };
+
     function clearBlocks()          { blocks = []; invalidate(); }
+
+    function clearBlocksRight()          { blocksRight = []; invalidate(); }
+
+
     function clearActions()         { actions = []; };
     function setCurrentPiece(piece) { current = piece || randomPiece(); invalidate();     };
     function setNextPiece(piece)    { next    = piece || randomPiece(); invalidateNext(); };
@@ -256,6 +317,7 @@
       dt = 0;
       clearActions();
       clearBlocks();
+      clearBlocksRight();
       clearRows();
       clearScore();
       setCurrentPiece(next);
@@ -363,6 +425,8 @@
     //-------------------------------------------------------------------------
 
     var invalid = {};
+    var lastY = false;
+    var oldie = false;
 
     function invalidate()         { invalid.court  = true; }
     function invalidateNext()     { invalid.next   = true; }
@@ -373,26 +437,56 @@
       ctx.save();
       ctx.lineWidth = 1;
       ctx.translate(0.5, 0.5); // for crisp 1px black lines
+
+      ctxRight.save();
+      ctxRight.lineWidth = 1;
+      ctxRight.translate(0.5, 0.5); // for crisp 1px black lines
+
+
       drawCourt();
       drawNext();
       drawScore();
       drawRows();
       ctx.restore();
+      ctxRight.restore();
     };
 
     function drawCourt() {
       if (invalid.court) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (playing)
-          drawPiece(ctx, current.type, current.x, current.y, current.dir);
+        ctxRight.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (playing) {
+          lastY = current.y;        
+          //console.log('current',current.y,'lastY',lastY,'oldie',oldie.y);
+          ///console.log('lastY',lastY);
+
+          //ctxRight.clearRect(0, 0, canvas.width, canvas.height);
+          drawPiece(ctxFall, current.type, current.x, current.y, current.dir);                  
+
+          if (oldie && current.y == 0) {        
+            drawPiece(ctxSit, oldie.type, oldie.x, oldie.y, oldie.dir);                  
+            ctxFall.clearRect(0, 0, canvasFall.width, canvasFall.height);
+            ctxFall.restore();
+          }
+        
+
+
+          oldie = current;
+        }        
+        
+        
         var x, y, block;
         for(y = 0 ; y < ny ; y++) {
           for (x = 0 ; x < nx ; x++) {
-            if (block = getBlock(x,y))
-              drawBlock(ctx, x, y, block.color);
+            if (block = getBlock(x,y)) {
+              drawBlock(ctxSit, x, y, block.color);
+              //drawBlock(ctxFall, x, y, block.color);
+            }
           }
         }
         ctx.strokeRect(0, 0, nx*dx - 1, ny*dy - 1); // court boundary
+        ctxRight.strokeRect(0, 0, nx*dx - 1, ny*dy - 1); // court boundary
         invalid.court = false;
       }
     };
@@ -443,6 +537,8 @@
 
     run();
 
+    jQuery('#start').click(play);
+    
   </script>
 
 </body> 
