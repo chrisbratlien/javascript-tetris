@@ -7,7 +7,14 @@
     body      { font-family: Helvetica, sans-serif; }
     #tetris   { margin: 1em auto; padding: 1em; border: 4px solid black; border-radius: 10px; background-color: #F8F8F8; }
     #stats    { display: inline-block; vertical-align: top; }
-    #canvas-left   { position: absolute; left: 35%; display: inline-block; vertical-align: top; background: url(texture.jpg); box-shadow: 10px 10px 10px #999; border: 2px solid #333; }
+    #canvas-left   { 
+      position: absolute; 
+      left: 35%; 
+      display: inline-block; 
+      vertical-align: top; 
+      box-shadow: 10px 10px 10px #999; 
+      border: 2px solid #333; 
+      }
     #menu     { position: absolute; right: 5%; bottom: 0; display: inline-block; vertical-align: top;}
     #menu p   { margin: 0.5em 0; text-align: center; }
     #menu p a { text-decoration: none; color: black; }
@@ -505,7 +512,7 @@
     function drawBlock(ctx, x, y, color) {
       ctx.fillStyle = color;
       ctx.fillRect(x*dx, y*dy, dx, dy);
-      ctx.strokeRect(x*dx, y*dy, dx, dy)
+      //ctx.strokeRect(x*dx, y*dy, dx, dy)
     };
 
     //-------------------------------------------------------------------------
@@ -517,12 +524,14 @@
     jQuery('.color-fall').on('change',function(a,b){
       console.log('a',a,'b',b);
       BSD.colorFall = this.value;
+      console.log(this.value);
     });
     jQuery('.color-fall').val('#00ffff').trigger('change');
     jQuery('.color-sit').on('change',function(){
       BSD.colorSit = this.value;
+      console.log(this.value);
     });
-    jQuery('.color-sit').val('#ff0000').trigger('change');
+    jQuery('.color-sit').val('#ffc7dd').trigger('change');
 
     jQuery('#start').click(play);
     
