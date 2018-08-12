@@ -29,9 +29,12 @@
         
   </style>
   
+  <!--
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>  
-  <script src="http://cdn.dev.bratliensoftware.com/javascript/array.js"></script>
-  <script src="http://cdn.dev.bratliensoftware.com/javascript/bsd.pubsub.js"></script>
+-->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="js/array.js"></script>
+  <script src="js/bsd.pubsub.js"></script>
 </head> 
 
 <body> 
@@ -41,7 +44,10 @@
     </canvas>
 
     <div id="menu">
-    
+      <p>
+        <input type="color" class="color color-fall"> Falling block color<br />
+        <input type="color" class="color color-sit"> Sitting block color
+      </p>
       <p id="start">Play (space)</p>
       <p><canvas id="upcoming"></canvas></p>
       <p>score <span id="score">00000</span></p>
@@ -54,8 +60,8 @@
 
     if (typeof BSD =="undefined") { var BSD = {}; }
 
-    BSD.fallColor = 'cyan';
-    BSD.sitColor = 'red';
+    BSD.colorFall = false;
+    BSD.colorSit = false;
 
 
     //-------------------------------------------------------------------------
@@ -439,7 +445,7 @@
           //console.log('current',current.y,'lastY',lastY,'oldie',oldie.y);
           ///console.log('lastY',lastY);
 
-          drawPiece(ctxFall, current.type, current.x, current.y, current.dir,BSD.fallColor);                  
+          drawPiece(ctxFall, current.type, current.x, current.y, current.dir,BSD.colorFall);                  
 
         
 
@@ -452,8 +458,8 @@
         for(y = 0 ; y < ny ; y++) {
           for (x = 0 ; x < nx ; x++) {
             if (block = getBlock(x,y)) {
-              drawBlock(ctxFall, x, y, BSD.sitColor);
-              console.log(x,y);
+              drawBlock(ctxFall, x, y, BSD.colorSit);
+              ///console.log(x,y);
             }
           }
         }
@@ -468,7 +474,7 @@
         uctx.save();
         uctx.translate(0.5, 0.5);
         uctx.clearRect(0, 0, nu*dx, nu*dy);
-        drawPiece(uctx, next.type, padding, padding, next.dir,BSD.fallColor);
+        drawPiece(uctx, next.type, padding, padding, next.dir,BSD.colorFall);
         uctx.strokeStyle = 'black';
         uctx.strokeRect(0, 0, nu*dx - 1, nu*dy - 1);
         uctx.restore();
@@ -507,6 +513,16 @@
     //-------------------------------------------------------------------------
 
     run();
+
+    jQuery('.color-fall').on('change',function(a,b){
+      console.log('a',a,'b',b);
+      BSD.colorFall = this.value;
+    });
+    jQuery('.color-fall').val('#00ffff').trigger('change');
+    jQuery('.color-sit').on('change',function(){
+      BSD.colorSit = this.value;
+    });
+    jQuery('.color-sit').val('#ff0000').trigger('change');
 
     jQuery('#start').click(play);
     
