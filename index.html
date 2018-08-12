@@ -521,17 +521,23 @@
 
     run();
 
+
+    var cyan = '#86fbff';///'#ffd7ed';
+    var red = '#ffd7ed';
+
     jQuery('.color-fall').on('change',function(a,b){
       console.log('a',a,'b',b);
       BSD.colorFall = this.value;
       console.log(this.value);
     });
-    jQuery('.color-fall').val('#00ffff').trigger('change');
+    jQuery('.color-fall').val(red).trigger('change');
+
+
     jQuery('.color-sit').on('change',function(){
       BSD.colorSit = this.value;
       console.log(this.value);
     });
-    jQuery('.color-sit').val('#ffc7dd').trigger('change');
+    jQuery('.color-sit').val(cyan).trigger('change');
 
     jQuery('#start').click(play);
     
